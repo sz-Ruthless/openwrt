@@ -158,6 +158,16 @@ define Device/asiarf_ap7621-nv1
 endef
 TARGET_DEVICES += asiarf_ap7621-nv1
 
+define Device/asus_rt-ac1200gu
+  $(Device/dsa-migration)
+  DEVICE_VENDOR := ASUS
+  DEVICE_MODEL := RT-AC1200GU
+  IMAGE_SIZE := 16064k
+  DEVICE_PACKAGES := kmod-mt7603 kmod-mt76x2 kmod-usb3 \
+	kmod-usb-ledtrig-usbport
+endef
+TARGET_DEVICES += asus_rt-ac1200gu
+
 define Device/asus_rt-ac57u
   $(Device/dsa-migration)
   DEVICE_VENDOR := ASUS

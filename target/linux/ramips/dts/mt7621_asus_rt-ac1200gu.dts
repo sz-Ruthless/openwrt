@@ -3,6 +3,6 @@
 #include "mt7621_asus_rt-ac57u_ac1200gu.dtsi"
 
 / {
-	compatible = "asus,rt-ac57u", "mediatek,mt7621-soc";
-	model = "ASUS RT-AC57U";
+	compatible = "asus,rt-ac1200gu", "mediatek,mt7621-soc";
+	model = "ASUS RT-AC1200GU";
 };
