@@ -38,6 +38,14 @@ define Device/alfa-network_awusfree1
 endef
 TARGET_DEVICES += alfa-network_awusfree1
 
+define Device/antbang_a7c
+  IMAGE_SIZE := 7872k
+  DEVICE_VENDOR := Antbang
+  DEVICE_MODEL := A7C
+  DEVICE_PACKAGES := kmod-mt76x2
+endef
+TARGET_DEVICES += antbang_a7c
+
 define Device/asus_rt-n10p-v3
   IMAGE_SIZE := 7872k
   DEVICE_VENDOR := Asus
