@@ -432,6 +432,15 @@ define Device/engenius_esr600
 endef
 TARGET_DEVICES += engenius_esr600
 
+define Device/focusmedia_mt7620a
+  SOC := mt7620a
+  IMAGE_SIZE := 7872k
+  DEVICE_VENDOR := FocusMedia
+  DEVICE_MODEL := MT7620A
+  DEVICE_PACKAGES := kmod-rt2800-pci
+endef
+TARGET_DEVICES += focusmedia_mt7620a
+
 define Device/fon_fon2601
   SOC := mt7620a
   IMAGE_SIZE := 15936k
