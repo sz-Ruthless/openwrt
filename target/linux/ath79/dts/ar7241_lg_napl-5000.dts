@@ -64,7 +64,7 @@
 			partition@0 {
 				label = "u-boot";
 				reg = <0x0 0x20000>;
-				read-only;
+			/*	read-only;	*/
 			};
 
 			partition@20000 {
@@ -76,7 +76,7 @@
 			art: partition@7f0000 {
 				label = "art";
 				reg = <0x7f0000 0x10000>;
-				read-only;
+			/*	read-only;	*/
 
 				compatible = "nvmem-cells";
 				#address-cells = <1>;

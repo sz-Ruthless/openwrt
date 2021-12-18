@@ -68,19 +68,19 @@
 			uboot: partition@0 {
 				label = "u-boot";
 				reg = <0x0 0x40000>;
-				read-only;
+			/*	read-only;	*/
 			};
 
 			partition@40000 {
 				label = "u-boot-env";
 				reg = <0x40000 0x10000>;
-				read-only;
+			/*	read-only;	*/
 			};
 
 			partition@50000 {
 				label = "os-env";
 				reg = <0x50000 0x10000>;
-				read-only;
+			/*	read-only;	*/
 			};
 
 			partition@60000 {
@@ -92,13 +92,13 @@
 			partition@fe0000 {
 				label = "productinfo";
 				reg = <0xfe0000 0x10000>;
-				read-only;
+			/*	read-only;	*/
 			};
 
 			art: partition@ff0000 {
 				label = "art";
 				reg = <0xff0000 0x10000>;
-				read-only;
+			/*	read-only;	*/
 
 				compatible = "nvmem-cells";
 				#address-cells = <1>;
