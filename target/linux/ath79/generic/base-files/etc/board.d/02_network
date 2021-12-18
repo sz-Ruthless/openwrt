@@ -323,6 +323,10 @@ ath79_setup_interfaces()
 		ucidef_add_switch "switch0" \
 			"0@eth0" "2:lan:3" "3:lan:2" "4:lan:1"
 		;;
+	lemon,magicwifi-wr-9341)
+		ucidef_set_interface_wan "eth0"
+		ucidef_set_interface_lan "eth1"
+		;;
 	letv,lba-047-ch)
 		ucidef_set_interface_wan "eth0"
 		ucidef_add_switch "switch0" \

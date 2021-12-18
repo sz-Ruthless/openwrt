@@ -1433,6 +1433,14 @@ define Device/joyit_jt-or750i
 endef
 TARGET_DEVICES += joyit_jt-or750i
 
+define Device/lemon_magicwifi-wr9341
+  SOC := ar9341
+  DEVICE_VENDOR := LEMON
+  DEVICE_MODEL := WR-9341
+  IMAGE_SIZE := 15872k
+endef
+TARGET_DEVICES += lemon_magicwifi-wr9341
+
 define Device/letv_lba-047-ch
   $(Device/loader-okli-uimage)
   SOC := qca9531
