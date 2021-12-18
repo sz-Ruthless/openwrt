@@ -288,6 +288,7 @@ ath79_setup_interfaces()
 		ucidef_set_interface_lan "eth0" "dhcp"
 		;;
 	fast,fw150r|\
+	lg,napl-5000|\
 	netgear,wnr2200-8m|\
 	netgear,wnr2200-16m)
 		ucidef_set_interface_wan "eth0"

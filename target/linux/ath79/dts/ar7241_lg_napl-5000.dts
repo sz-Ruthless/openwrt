@@ -1,0 +1,128 @@
+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
+
+#include "ar7241.dtsi"
+
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/input/input.h>
+
+/ {
+	model = "LG NAPL-5000";
+	compatible = "lg,napl-5000", "qca,ar7241";
+
+	aliases {
+		led-boot = &led_system;
+		led-failsafe = &led_system;
+		led-running = &led_system;
+		led-upgrade = &led_system;
+		label-mac-device = &eth0;
+	};
+
+	ath9k-leds {
+		compatible = "gpio-leds";
+
+		wlan {
+			label = "green:wlan";
+			gpios = <&ath9k 0 GPIO_ACTIVE_LOW>;
+			linux,default-trigger = "phy0tpt";
+		};
+	};
+
+	gpio-leds {
+		compatible = "gpio-leds";
+
+		led_system: system {
+			label = "red:system";
+			gpios = <&gpio 1 GPIO_ACTIVE_LOW>;
+		};
+	};
+
+	keys {
+		compatible = "gpio-keys";
+
+		reset {
+			label = "reset";
+			linux,code = <KEY_RESTART>;
+			gpios = <&gpio 11 GPIO_ACTIVE_LOW>;
+		};
+	};
+};
+
+&spi {
+	status = "okay";
+
+	flash@0 {
+		compatible = "jedec,spi-nor";
+		reg = <0>;
+		spi-max-frequency = <50000000>;
+		m25p,fast-read;
+
+		partitions {
+			compatible = "fixed-partitions";
+			#address-cells = <1>;
+			#size-cells = <1>;
+
+			partition@0 {
+				label = "u-boot";
+				reg = <0x0 0x20000>;
+				read-only;
+			};
+
+			partition@20000 {
+				compatible = "denx,uimage";
+				label = "firmware";
+				reg = <0x20000 0x7d0000>;
+			};
+
+			art: partition@7f0000 {
+				label = "art";
+				reg = <0x7f0000 0x10000>;
+				read-only;
+
+				compatible = "nvmem-cells";
+				#address-cells = <1>;
+				#size-cells = <1>;
+
+				macaddr_art_0: macaddr@0 {
+					reg = <0x0 0x6>;
+				};
+
+				macaddr_art_6: macaddr@6 {
+					reg = <0x6 0x6>;
+				};
+			};
+		};
+	};
+};
+
+&art {
+
+};
+
+&pcie {
+	status = "okay";
+
+	ath9k: wifi@0,0 {
+		reg = <0x0000 0 0 0 0>;
+		gpio-controller;
+		#gpio-cells = <2>;
+		qca,no-eeprom;
+		nvmem-cells = <&macaddr_art_0>;
+		nvmem-cell-names = "mac-address";
+	};
+};
+
+&eth0 {
+	status = "okay";
+
+	nvmem-cells = <&macaddr_art_6>;
+	nvmem-cell-names = "mac-address";
+};
+
+&eth1 {
+	/* Workaround: keep the Ethernet interfaces order/mapping correct
+	 * (GMAC0 -> eth0, GMAC1 -> eth1, same as in old ar71xx target) */
+	compatible = "qca,ar7241-eth", "syscon", "simple-mfd";
+
+	nvmem-cells = <&macaddr_art_0>;
+	nvmem-cell-names = "mac-address";
+};

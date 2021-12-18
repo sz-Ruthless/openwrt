@@ -1456,6 +1456,15 @@ define Device/letv_lba-047-ch
 endef
 TARGET_DEVICES += letv_lba-047-ch
 
+define Device/lg_napl-5000
+  SOC := ar7241
+  DEVICE_VENDOR := LG
+  DEVICE_MODEL := NAPL-5000
+  IMAGE_SIZE := 8000k
+  DEVICE_PACKAGES := -uboot-envtools
+endef
+TARGET_DEVICES += lg_napl-5000
+
 define Device/librerouter_librerouter-v1
   SOC := qca9558
   DEVICE_VENDOR := Librerouter
