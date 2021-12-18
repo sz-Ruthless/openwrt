@@ -60,13 +60,13 @@
 			partition@0 {
 				label = "u-boot";
 				reg = <0x0 0x1f000>;
-				read-only;
+			/*	read-only;	*/
 			};
 
 			factory: partition@1f000 {
 				label = "factory";
 				reg = <0x1f000 0x1000>;
-				read-only;
+			/*	read-only;	*/
 			};
 
 			partition@20000 {
