@@ -1186,6 +1186,15 @@ define Device/etactica_eg200
 endef
 TARGET_DEVICES += etactica_eg200
 
+define Device/fast_fw150r
+  SOC := ar9331
+  DEVICE_VENDOR := FAST
+  DEVICE_MODEL := FW150R
+  DEVICE_PACKAGES := -uboot-envtools
+  IMAGE_SIZE := 8000k
+endef
+TARGET_DEVICES += fast_fw150r
+
 define Device/glinet_6408
   $(Device/tplink-8mlzma)
   SOC := ar9331
