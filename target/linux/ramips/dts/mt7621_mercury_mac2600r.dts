@@ -1,0 +1,170 @@
+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
+
+#include "mt7621.dtsi"
+
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/input/input.h>
+
+/ {
+	compatible = "mercury,mac2600r", "mediatek,mt7621-soc";
+	model = "MERCURY MAC2600R";
+
+	aliases {
+		label-mac-device = &wan;
+		led-boot = &led_system;
+		led-failsafe = &led_system;
+		led-running = &led_system;
+		led-upgrade = &led_system;
+	};
+
+	leds {
+		compatible = "gpio-leds";
+
+		led_system: system {
+			label = "white:system";
+			gpios = <&gpio 25 GPIO_ACTIVE_LOW>;
+		};
+	};
+
+	keys {
+		compatible = "gpio-keys";
+
+		reset {
+			label = "reset";
+			gpios = <&gpio 8 GPIO_ACTIVE_LOW>;
+			linux,code = <KEY_RESTART>;
+		};
+	};
+};
+
+&spi0 {
+	status = "okay";
+
+	flash@0 {
+		compatible = "jedec,spi-nor";
+		reg = <0>;
+		spi-max-frequency = <50000000>;
+		m25p,fast-read;
+
+		partitions {
+			compatible = "fixed-partitions";
+			#address-cells = <1>;
+			#size-cells = <1>;
+
+			partition@0 {
+				label = "factory_boot";
+				reg = <0x0 0x1d800>;
+				read-only;
+			};
+
+			factory_info: partition@1d800 {
+				label = "factory_info";
+				reg = <0x1d800 0x800>;
+				read-only;
+				
+				compatible = "nvmem-cells";
+				#address-cells = <1>;
+				#size-cells = <1>;
+
+				macaddr_factory_info_d: macaddr@d {
+					reg = <0xd 0x6>;
+				};
+			};
+
+			art: partition@1e000 {
+				label = "art";
+				reg = <0x1e000 0x2000>;
+				read-only;
+			};
+
+			partition@20000 {
+				label = "config";
+				reg = <0x20000 0x10000>;
+				read-only;
+			};
+
+			partition@30000 {
+				label = "normal_boot";
+				reg = <0x30000 0x10000>;
+				read-only;
+			};
+
+			partition@40000 {
+				compatible = "denx,uimage";
+				label = "firmware";
+				reg = <0x40000 0x7c0000>;
+			};
+		};
+	};
+};
+
+&state_default {
+	gpio {
+		groups = "uart3", "rgmii2";
+		function = "gpio";
+	};
+};
+
+&gmac0 {
+	nvmem-cells = <&macaddr_factory_info_d>;
+	nvmem-cell-names = "mac-address";
+};
+
+&switch0 {
+	ports {
+		wan: port@0 {
+			status = "okay";
+			label = "wan";
+			nvmem-cells = <&macaddr_factory_info_d>;
+			nvmem-cell-names = "mac-address";
+			mac-address-increment = <1>;
+		};
+
+		port@1 {
+			status = "okay";
+			label = "lan1";
+		};
+
+		port@2 {
+			status = "okay";
+			label = "lan2";
+		};
+
+		port@3 {
+			status = "okay";
+			label = "lan3";
+		};
+
+		port@4 {
+			status = "okay";
+			label = "lan4";
+		};
+	};
+};
+
+&pcie {
+	status = "okay";
+};
+
+&pcie0 {
+	wifi@0,0 {
+		compatible = "mediatek,mt76";
+		reg = <0x0000 0 0 0 0>;
+		mediatek,mtd-eeprom = <&art 0x0>;
+		ieee80211-freq-limit = <2400000 2500000>;
+		nvmem-cells = <&macaddr_factory_info_d>;
+		nvmem-cell-names = "mac-address";
+	};
+};
+
+&pcie1 {
+	wifi@0,0 {
+		compatible = "mediatek,mt76";
+		reg = <0x0000 0 0 0 0>;
+		mediatek,mtd-eeprom = <&art 0x1000>;
+		ieee80211-freq-limit = <5000000 6000000>;
+		nvmem-cells = <&macaddr_factory_info_d>;
+		nvmem-cell-names = "mac-address";
+		mac-address-increment = <2>;
+	};
+};
